@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <TITLE>jQuery AJAX PHP Autocomplete</TITLE>
+        <style>
+            body{width:50%;margin: 0 auto;}
+            .frmSearch {border: 1px solid #F0F0F0;margin: 2px 0px;padding:40px;}
+            #country-list{float:left;list-style:none;margin:0;padding:0;width:auto; min-width: 250px;}
+            #country-list li{padding: 10px; background:#FAFAFA;border-bottom:#F0F0F0 1px solid;}
+            #country-list li:hover{background:#F0F0F0; cursor: pointer;}
+            #search-box{padding: 10px;border: #F0F0F0 1px solid; min-width: 250px;}
+        </style>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                $("#search-box").keyup(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "ajax.php",
+                        data: 'q=' + $(this).val(),
+                        beforeSend: function () {
+                            $("#search-box").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
+                        },
+                        success: function (data) {
+                            //console.log(data);
+                            $("#suggesstion-box").show();
+                            $("#suggesstion-box").html(data);
+                        }
+                    });
+                });
+            });
+
+            function selectSuggesstion(val) {
+                $("#search-box").val(val);
+                $("#suggesstion-box").hide();
+            }
+        </script>
+    </head>
+    <body>
+        <div class="frmSearch">
+            <input type="text" id="search-box" placeholder="Type here" />
+            <div id="suggesstion-box"></div>
+        </div>
+    </body>
+</html>
