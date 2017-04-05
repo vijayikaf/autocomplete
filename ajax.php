@@ -4,23 +4,18 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', 'girnar');
 define('DB_DATABASE', 'test');
 
-$con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-if (!$con) {
-    die("Opps some thing went wrong");
-} else {
-    mysql_select_db(DB_DATABASE, $con);
-}
+$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 
 $q = $_REQUEST['q'];
 if (!empty($q)) {
-    $sql = "SELECT `name` FROM `category` WHERE name LIKE '" . $q . "%' ORDER BY name ASC";
-    $result = mysql_query($sql);
+    $sql = "SELECT `name` FROM `countries` WHERE name LIKE '" . $q . "%' ORDER BY name ASC";
+    $result = mysqli_query($link, $sql);
     ?>
     <ul id="country-list">
         <?php
-        while($cat = mysql_fetch_assoc($result)) {
+        while($res = mysqli_fetch_assoc($result)) {
             ?>
-            <li onClick="selectSuggesstion('<?php echo $cat["name"]; ?>');"><?php echo $cat["name"]; ?></li>
+            <li onClick="selectSuggesstion('<?php echo $res["name"]; ?>');"><?php echo $res["name"]; ?></li>
         <?php } ?>
     </ul>
     <?php
